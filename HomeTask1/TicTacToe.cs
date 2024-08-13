@@ -1,132 +1,113 @@
-﻿/*Игра «Крестики-Нолики» (TicTacToe).
-Игрок против игрока.
-Отрисовка поля 3*3 в консоли.
-Считывание хода игрока.
-Проверка корректности хода.
-Проверка победной комбинации хода.
-Проверка на ничью.*/
+﻿using System;
+using System.Runtime.CompilerServices;
 
-using System;
-class HomeTask1
+namespace HomeTask1
 {
-    public static void printField(char[,] field)
+    class TicTacToe
     {
-
-        Console.WriteLine($"-------------");
-        Console.WriteLine($"| {field[2, 0]} | {field[2, 1]} | {field[2, 2]} |");
-        Console.WriteLine($"-------------");
-        Console.WriteLine($"| {field[1, 0]} | {field[1, 1]} | {field[1, 2]} |");
-        Console.WriteLine($"-------------");
-        Console.WriteLine($"| {field[0, 0]} | {field[0, 1]} | {field[0, 2]} |");
-        Console.WriteLine($"-------------");
-    }
-
-public static void playerMove(char[,] field, char player)
-    {
-        while (true)
+        public static char[,] field = new char[3, 3];
+        public const char x = 'x';
+        public const char o = 'o';
+        public static int player = 0;
+        
+        
+        public static void PrintField()
         {
-            Console.Write($"Игрок {player}, ваш ход, введите цифру (1-9) : ");
-            if (int.TryParse(Console.ReadLine(), out int move) && move >= 1 && move <= 9)
+            Console.WriteLine($"-------------");
+            Console.WriteLine($"| {field[2, 0]} | {field[2, 1]} | {field[2, 2]} |");
+            Console.WriteLine($"-------------");
+            Console.WriteLine($"| {field[1, 0]} | {field[1, 1]} | {field[1, 2]} |");
+            Console.WriteLine($"-------------");
+            Console.WriteLine($"| {field[0, 0]} | {field[0, 1]} | {field[0, 2]} |");
+            Console.WriteLine($"-------------");
+        }
+
+        public static void PlayerMove()
+        {
+            while (true)
             {
-                int row = (move - 1) / 3;
-                int col = (move - 1) % 3;
-                if (checkMove( field, move))
+                Console.WriteLine($"Игрок {player % 2 + 1}, ваш ход, введите цифру (1-9) :");
+
+                if (int.TryParse(Console.ReadLine(), out int move) && move >= 1 && move <= 9)
                 {
-                    field[row, col] = player;
-                    break;
+                    int row = (move - 1) / 3;
+                    int col = (move - 1) % 3;
+                    if (field[row,col] == x || field[row,col] == o)
+                    {
+                        Console.WriteLine("Позиция уже занята. Попробуйте снова.");
+                        
+                    }
+                    else
+                    {
+                        field[row, col] = (player % 2 == 0) ? x : o ;
+                        break;
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Позиция уже занята. Попробуйте снова.");
+                    Console.WriteLine("Некорректный ввод. Введите цифру от 1 до 9.");
                 }
             }
-            else
-            {
-                Console.WriteLine("Некорректный ввод. Введите цифру от 1 до 9.");
-            }
         }
-    }
+        public static bool CheckWin()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if ((field[i, 0] == field[i, 1] && field[i, 1] == field[i, 2])||
+                    (field[0, i] == field[1, i] && field[1, i] == field[2, i]))
+                {
+                    TicTacToe.PrintField();
+                    Console.WriteLine($"Игрок {player % 2 + 1} победил!");
+                    return true;
+                }
+                if ((field[0, 0] == field[1, 1] && field[1, 1] == field[2, 2]) ||
+                    (field[0, 2] == field[1, 1] && field[1, 1] == field[2, 0]))
+                {
+                    TicTacToe.PrintField();
+                    Console.WriteLine($"Игрок {player % 2 + 1} победил!");
+                    return true;
+                }
+            }
+            return false;
+        }
 
-   public static bool checkMove(char[,] field, int move)
-    {
-        int row = (move - 1) / 3;
-        int col = (move - 1) % 3;
-        if (field[row, col] >= '1' && field[row, col] <= '9')
+        public static bool CheckDraw()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (field[i, j] >= '1' && field[i, j] <= '9')
+                        return false;
+                }
+            }
+            TicTacToe.PrintField();
+            Console.WriteLine("Ничья!");
             return true;
-        return false;
-    }
-
-    public static bool checkWin(char[,] field, char player)
-    {
-
-        for (int i = 0; i < 3; i++)
-        {
-            if (field[i, 0] == player && field[i, 1] == player && field[i, 2] == player)
-                return true;
-            if (field[0, i] == player && field[1, i] == player && field[2, i] == player)
-                return true;
         }
-
-
-        if ((field[0, 0] == player && field[1, 1] == player && field[2, 2] == player) ||
-            (field[0, 2] == player && field[1, 1] == player && field[2, 0] == player))
-            return true;
-
-        return false;
-    }
-    public static bool checkDraw(char[,] field)
-    {
-        for (int i = 0; i < 3; i++)
+        public static void Start()
         {
-            for (int j = 0; j < 3; j++)
+            char count = '1';
+            for (int i = 0; i < 3; i++)
             {
-                if (field[i, j] >= '1' && field[i, j] <= '9')
-                    return false;
+                for (int j = 0; j < 3; j++)
+                {
+                    field[i, j] = count;
+                    count++;
+                }
             }
         }
-        return true;
-    }
-
-    static void Main()
-    {
-        char[,] field = new char[3, 3];
-        char count = '1';
-        for (int i = 0; i < 3; i++)
+        public static void ChangePlayer()
         {
-            for (int j = 0; j < 3; j++)
+            if (player % 2 == 0)
             {
-                field[i, j] = count;
-                count++;
+                player++;
             }
-
-        }
-
-        char player = 'x';
-        while (true)
-        {
-            printField(field);
-            playerMove(field, player);
-            if (checkWin(field, player))
+            else if (player % 2 != 0)
             {
-                printField(field);
-                Console.WriteLine($"Игрок {player} победил!");
-                break;
-            }
-            if (checkDraw(field))
-            {
-                printField(field);
-                Console.WriteLine("Ничья!");
-                break;
-            }
-            if (player == 'x')
-            {
-                player = 'o';
-            }
-            else
-            {
-                player = 'x';
+                player++;
             }
         }
     }
-
+  
 }
