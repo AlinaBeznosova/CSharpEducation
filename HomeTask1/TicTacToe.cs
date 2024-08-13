@@ -6,11 +6,10 @@ namespace HomeTask1
     class TicTacToe
     {
         public static char[,] field = new char[3, 3];
-        public const char x = 'x';
-        public const char o = 'o';
-        public static int player = 0;
-        
-        
+        public const char CrossSign = 'x';
+        public const char NoughtSign = 'o';
+        public static char currentPlayerSign = CrossSign;
+ 
         public static void PrintField()
         {
             Console.WriteLine($"-------------");
@@ -26,20 +25,20 @@ namespace HomeTask1
         {
             while (true)
             {
-                Console.WriteLine($"Игрок {player % 2 + 1}, ваш ход, введите цифру (1-9) :");
+                Console.WriteLine($"Игрок {currentPlayerSign}, ваш ход, введите цифру (1-9) :");
 
                 if (int.TryParse(Console.ReadLine(), out int move) && move >= 1 && move <= 9)
                 {
                     int row = (move - 1) / 3;
                     int col = (move - 1) % 3;
-                    if (field[row,col] == x || field[row,col] == o)
+                    if (field[row,col] == CrossSign || field[row,col] == NoughtSign)
                     {
                         Console.WriteLine("Позиция уже занята. Попробуйте снова.");
                         
                     }
                     else
                     {
-                        field[row, col] = (player % 2 == 0) ? x : o ;
+                        field[row, col] = (currentPlayerSign == CrossSign) ? CrossSign : NoughtSign;
                         break;
                     }
                 }
@@ -57,14 +56,14 @@ namespace HomeTask1
                     (field[0, i] == field[1, i] && field[1, i] == field[2, i]))
                 {
                     TicTacToe.PrintField();
-                    Console.WriteLine($"Игрок {player % 2 + 1} победил!");
+                    Console.WriteLine($"Игрок {currentPlayerSign} победил!");
                     return true;
                 }
                 if ((field[0, 0] == field[1, 1] && field[1, 1] == field[2, 2]) ||
                     (field[0, 2] == field[1, 1] && field[1, 1] == field[2, 0]))
                 {
                     TicTacToe.PrintField();
-                    Console.WriteLine($"Игрок {player % 2 + 1} победил!");
+                    Console.WriteLine($"Игрок {currentPlayerSign} победил!");
                     return true;
                 }
             }
@@ -99,14 +98,7 @@ namespace HomeTask1
         }
         public static void ChangePlayer()
         {
-            if (player % 2 == 0)
-            {
-                player++;
-            }
-            else if (player % 2 != 0)
-            {
-                player++;
-            }
+            currentPlayerSign = (currentPlayerSign == CrossSign) ? NoughtSign : CrossSign;
         }
     }
   
