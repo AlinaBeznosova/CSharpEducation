@@ -1,24 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HomeTask3
+﻿namespace HomeTask3
 {
-    class Abonent
-    {
-        public string Name { get; set; }
-        
-        public string PhoneNumber { get; set; }
+	/// <summary>
+	/// Абонент.
+	/// </summary>
+	class Abonent
+	{
+		#region Поля и свойства
+		/// <summary>
+		/// Имя абонента.
+		/// </summary>
+		public string Name { get; set; }
 
-        public Abonent(string name, string phoneNumber)
-        {
-            Name = name;
-            PhoneNumber = phoneNumber;
+		/// <summary>
+		/// Номер телефона абонента.
+		/// </summary>
+		public string PhoneNumber { get; set; }
+		#endregion
 
-        }
+		#region Конструктор
+		/// <summary>
+		/// Конструктор.
+		/// </summary>
+		/// <param name="name">Имя абонента.</param>
+		/// <param name="phoneNumber">Номер телефона абонента.</param>
+		public Abonent(string name, string phoneNumber)
+		{
+			Name = name;
+			PhoneNumber = phoneNumber;
 
-       
-    }
+		}
+		#endregion
+	}
 }

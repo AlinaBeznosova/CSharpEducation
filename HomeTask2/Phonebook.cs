@@ -1,157 +1,178 @@
 ﻿namespace HomeTask3
 {
-    class Phonebook
-    {
+/// <summary>
+/// Телефонная книга.
+/// </summary>
+	class Phonebook
+	{
+		#region Поля
+		/// <summary>
+		/// Текстовый файл, в который записывается телефонна книга.
+		/// </summary>
+		private const string txtFile = "phonebook.txt";
+		
+		/// <summary>
+		/// Телефонная книга.
+		/// </summary>
+		private static Phonebook phonebook;
 
-        private static Phonebook instance;
-        private static readonly object _lock = new object();
-        private List<Abonent> abonents;
+		/// <summary>
+		/// Коллекция абонентов.
+		/// </summary>
+		private List<Abonent> abonents;
+		#endregion
 
-        private Phonebook()
-        {
-            abonents = new List<Abonent>();
-            LoadFromFileSync();
-        }
+		#region Методы
+		/// <summary>
+		/// Создание класса одиночки.
+		/// </summary>
+		/// <returns></returns>
+		public static Phonebook Singleton()
+		{
+			if (phonebook == null)
+				phonebook = new Phonebook();
+			return phonebook;
+		}
+		/// <summary>
+		/// Чтение данных из текстового файла.
+		/// </summary>
+		/// <returns></returns>
+		private List<Abonent> LoadFromFile()
+		{
+			if (File.Exists(txtFile))
+			{
+				string[] lines = File.ReadAllLines(txtFile);
+				foreach (string line in lines)
+				{
+					string[] parts = line.Split(':');
+					if (parts.Length == 2)
+					{
+						abonents.Add(new Abonent(parts[0], parts[1]));
+					}
+				}
 
-        public static Phonebook Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    lock (_lock)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new Phonebook();
-                        }
-                    }
-                }
-                return instance;
-            }
-        }
+			}
+			return abonents;
+		}
 
+		/// <summary>
+		/// Сохранение данных в текстовый файл.
+		/// </summary>
+		private void SaveToFile()
+		{
+			string[] lines = abonents.Select(a => $"{a.Name}:{a.PhoneNumber}").ToArray();
+			File.WriteAllLines(txtFile, lines);
+		}
 
-        public List<Abonent> LoadFromFileSync()
-        {
-            if (File.Exists("phonebook.txt"))
-            {
-                string[] lines = File.ReadAllLines("phonebook.txt");
-                foreach (string line in lines)
-                {
-                    string[] parts = line.Split(':');
-                    if (parts.Length == 2)
-                    {
-                        abonents.Add(new Abonent(parts[0], parts[1]));
-                    }
-                }
+		/// <summary>
+		/// Добавление нового абонента.
+		/// </summary>
+		/// <param name="abonentToAdd">Абонент, которого добавляем.</param>
+		/// <exception cref="Exception">Исключение, если пытаемся создать уже существующего абонента.</exception>
+		public void AddAbonent(Abonent abonentToAdd)
+		{
 
-            }
-            return abonents;
-        }
+			foreach (Abonent abonent in abonents.ToList())
+			{
+				if (abonent.PhoneNumber == abonentToAdd.PhoneNumber)
+				{
+					throw new Exception("Абонент с таким номером уже существует");
+				}
+			}
+			abonents.Add(abonentToAdd);
+			SaveToFile();
+		}
 
-        private void SaveToFileSync()
-        {
-            string[] lines = abonents.Select(a => $"{a.Name}:{a.PhoneNumber}").ToArray();
-            File.WriteAllLines("phonebook.txt", lines);
-        }
+		/// <summary>
+		/// Удаление абонента.
+		/// </summary>
+		/// <param name="phoneNumber">Номер телефона абонента, которого нужно удалить.</param>
+		/// <returns></returns>
+		public bool RemoveAbonent(string phoneNumber)
+		{
+			int count = 0;
+			foreach (Abonent abonentToRemove in abonents.ToList())
+			{
+				if (abonentToRemove.PhoneNumber == phoneNumber)
+				{
+					abonents.Remove(abonentToRemove);
+					SaveToFile();
+					count++;
+				}
 
-        public void AddAbonent(Abonent abonentToAdd)
-        {
+			}
+			if (count != 0)
+				return true;
+			else return false;
 
-            foreach (Abonent abonent in abonents.ToList())
-            {
-                if (abonent.PhoneNumber == abonentToAdd.PhoneNumber)
-                {
-                    Console.WriteLine("Абонент с таким номером уже существует.");
-                    Console.WriteLine();
-                    return;
-                }
-            }
-            abonents.Add(abonentToAdd);
-            SaveToFileSync();
-            Console.WriteLine("Абонент добавлен");
-            Console.WriteLine();
-        }
+		}
 
-        public void RemoveAbonent(string phoneNumber)
-        {
-            int count = 0;
-            foreach (Abonent abonentToRemove in abonents.ToList())
-            {
-                if (abonentToRemove.PhoneNumber == phoneNumber)
-                {
-                    abonents.Remove(abonentToRemove);
-                    SaveToFileSync();
-                    Console.WriteLine("Абонент удален");
-                    Console.WriteLine();
-                    count++;
-                }
+		/// <summary>
+		/// Поиск абонента по номеру телефона.
+		/// </summary>
+		/// <param name="phoneNumber">Номер телефона абонента, который ищем.</param>
+		/// <returns></returns>
+		public string GetAbonentByPhoneNumber(string phoneNumber)
+		{
 
-            }
-            if (count == 0)
-                Console.WriteLine("Абонент не найден");
-            Console.WriteLine();
+			foreach (Abonent abonent in abonents)
+			{
+				if (abonent.PhoneNumber == phoneNumber)
+				{
+					return abonent.Name;
 
-        }
+				}
+			}
+			return String.Empty;
+		}
 
-        public void GetAbonentByPhoneNumber(string phoneNumber)
-        {
-            int count = 0;
-            foreach (Abonent abonent in abonents)
-            {
-                if (abonent.PhoneNumber == phoneNumber)
-                {
-                    Console.WriteLine($"Имя: {abonent.Name}");
-                    Console.WriteLine();
-                    count++;
-                }
-            }
-            if (count == 0)
-            {
-                Console.WriteLine("Абонент не найден");
-                Console.WriteLine();
-            }
+		/// <summary>
+		/// Поиск абонента по имени.
+		/// </summary>
+		/// <param name="name">Имя, которое ищем.</param>
+		/// <returns></returns>
+		public string GetPhoneNumberByName(string name)
+		{
+			foreach (Abonent abonent in abonents)
+			{
+				if (abonent.Name == name)
+				{
+					return abonent.PhoneNumber;
 
-        }
+				}
+			}
+			return String.Empty;
+		}
 
-        public void GetPhoneNumberByName(string name)
-        {
-            int count = 0;
-            foreach (Abonent abonent in abonents)
-            {
-                if (abonent.Name == name)
-                {
-                    Console.WriteLine($"Телефон: {abonent.PhoneNumber}");
-                    Console.WriteLine();
-                    count++;
-                }
-            }
-            if (count == 0)
-            {
-                Console.WriteLine("Абонент не найден");
-                Console.WriteLine();
-            }
-        }
+		/// <summary>
+		/// Вывод данных текстового файла в консоль.
+		/// </summary>
+		public void OutputFile()
+		{
+			String line;
+			StreamReader sr = new StreamReader(txtFile);
 
-        public void OutputFile()
-        {
-            String line;
+			line = sr.ReadLine();
 
-            StreamReader sr = new StreamReader("phonebook.txt");
+			while (line != null)
+			{
+				Console.WriteLine(line);
+				line = sr.ReadLine();
+			}
+			sr.Close();
 
-            line = sr.ReadLine();
+		}
+#endregion
 
-            while (line != null)
-            {
-                Console.WriteLine(line);
-
-                line = sr.ReadLine();
-            }
-            sr.Close();
-            Console.WriteLine();
-        }
-
-
-    }
+#region Конструкторы
+		/// <summary>
+		/// Создание коллекции с абонентами.
+		/// </summary>
+		private Phonebook()
+		{
+			abonents = new List<Abonent>();
+			LoadFromFile();
+		}
+		#endregion
+	}
 }
