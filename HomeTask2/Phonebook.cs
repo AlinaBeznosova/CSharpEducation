@@ -6,6 +6,7 @@
 	class Phonebook
 	{
 		#region Поля
+
 		/// <summary>
 		/// Текстовый файл, в который записывается телефонна книга.
 		/// </summary>
@@ -20,9 +21,11 @@
 		/// Коллекция абонентов.
 		/// </summary>
 		private List<Abonent> abonents;
+
 		#endregion
 
 		#region Методы
+
 		/// <summary>
 		/// Создание класса одиночки.
 		/// </summary>
@@ -162,6 +165,7 @@
 			sr.Close();
 
 		}
+
 #endregion
 
 #region Конструкторы
@@ -173,6 +177,7 @@
 			abonents = new List<Abonent>();
 			LoadFromFile();
 		}
+
 		#endregion
 	}
 }
