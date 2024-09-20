@@ -8,7 +8,7 @@ using System.Xml.Linq;
 namespace HomeTask4
 {
   /// <summary>
-  /// Класс рабочий с фиксированной зарплатой.
+  /// Класс сотрудник с фиксированной зарплатой.
   /// </summary>
   public class FullTimeEmployee : Employee
   {

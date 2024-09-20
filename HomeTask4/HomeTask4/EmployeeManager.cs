@@ -3,7 +3,7 @@
   /// <summary>
   /// Класс для управления коллекцией сотрудников.
   /// </summary>
-  /// <typeparam name="T">Тип сотрудника.</typeparam>
+  /// <typeparam name="T">Тип сотрудника Employee.</typeparam>
   public class EmployeeManager<T> : IEmployeeManager<T> where T : Employee
   {
     #region Поля и свойства
@@ -40,7 +40,7 @@
     /// <summary>
     /// Обновление данных о сотруднике.
     /// </summary>
-    /// <param name="employee">Имя сотрудника.</param>
+    /// <param name="employee">Сотрудник.</param>
     public void Update(T employee)
     {
       var existingEmployee = Get(employee.Name);

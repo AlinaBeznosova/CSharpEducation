@@ -9,7 +9,7 @@ namespace HomeTask4
   /// <summary>
   /// Интерфейс для управления коллекцией сотрудников.
   /// </summary>
-  /// <typeparam name="T">Тип сотрудника.</typeparam>
+  /// <typeparam name="T">Тип сотрудника Employee.</typeparam>
   internal interface IEmployeeManager<T>
   {
     void Add(T employee);
