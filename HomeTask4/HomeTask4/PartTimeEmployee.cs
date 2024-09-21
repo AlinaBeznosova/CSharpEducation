@@ -8,16 +8,15 @@ using System.Xml.Linq;
 namespace HomeTask4
 {
   /// <summary>
-  /// Класс сотрудник с почасовой оплатой.
+  /// Сотрудник с почасовой оплатой.
   /// </summary>
   public class PartTimeEmployee : Employee
   {
     #region Поля и свойства
 
-    /// <summary>
-    /// Имя сотрудника.
-    /// </summary>
     private string name;
+
+    private decimal baseSalary;
 
     /// <summary>
     /// Почасовая ставка.
@@ -29,54 +28,31 @@ namespace HomeTask4
     /// </summary>
     private int hoursWorked;
 
-    /// <summary>
-    /// Свойство.
-    /// </summary>
-    public override string Name
-    {
-      get { return name; }
-      set { name = value; }
-    }
+    public override string Name { get; set; }
 
-    /// <summary>
-    /// Свойство.
-    /// </summary>
     public override decimal BaseSalary
     {
       get { return hourlyRate * hoursWorked; }
-      set { }
-      
+      set { baseSalary = value; }
     }
 
     /// <summary>
-    /// Свойство.
+    /// Свойство, представляющее почасовую ставку.
     /// </summary>
-    public decimal HourlyRate
-    {
-      get { return hourlyRate; }
-      set {hourlyRate = value; }
-    }
+    public decimal HourlyRate { get; set; }
 
     /// <summary>
-    /// Свойство.
+    /// Свойство, представляющее отработанные часы.
     /// </summary>
-    public int HoursWorked
-    {
-      get { return hoursWorked; }
-      set { hoursWorked = value; }
-    }
+    public int HoursWorked { get; set; }
 
     #endregion
 
     #region Методы
 
-    /// <summary>
-    /// Расччет зарплаты.
-    /// </summary>
-    /// <returns></returns>
     public override decimal CalculateSalary()
     {
-      return hourlyRate * hoursWorked;
+      return HourlyRate * HoursWorked;
     }
 
     #endregion
@@ -84,7 +60,7 @@ namespace HomeTask4
     #region Конструкторы
 
     /// <summary>
-    /// Конструктор.
+    /// Инициализирует новый объект класса.
     /// </summary>
     /// <param name="name">Имя сотрудника.</param>
     /// <param name="hourlyRate">Почасовая ставка.</param>

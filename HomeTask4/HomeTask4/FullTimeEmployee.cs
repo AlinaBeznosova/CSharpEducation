@@ -8,51 +8,27 @@ using System.Xml.Linq;
 namespace HomeTask4
 {
   /// <summary>
-  /// Класс сотрудник с фиксированной зарплатой.
+  /// Сотрудник с фиксированной зарплатой.
   /// </summary>
   public class FullTimeEmployee : Employee
   {
     #region Поля и свойства
 
-    /// <summary>
-    /// Имя сотрудника.
-    /// </summary>
     private string name;
 
-    /// <summary>
-    /// Зарплата сотрудника.
-    /// </summary>
     private decimal baseSalary;
 
-    /// <summary>
-    /// Свойство.
-    /// </summary>
-    public override string Name
-    {
-      get { return name; }
-      set { name = value; }
-    }
+    public override string Name { get; set; }
 
-    /// <summary>
-    /// Свойство.
-    /// </summary>
-    public override decimal BaseSalary
-    {
-      get { return baseSalary; }
-      set { baseSalary = value; }
-    }
+    public override decimal BaseSalary { get; set; }
 
     #endregion
 
     #region Методы
 
-    /// <summary>
-    /// Расчет зарплаты.
-    /// </summary>
-    /// <returns></returns>
     public override decimal CalculateSalary()
     {
-      return baseSalary; 
+      return BaseSalary; 
     }
 
     #endregion
@@ -60,11 +36,10 @@ namespace HomeTask4
     #region Конструкторы
 
     /// <summary>
-    /// Конструктор.
+    /// Инициализирует новый объект класса.
     /// </summary>
     /// <param name="name">Имя сотрудника.</param>
     /// <param name="baseSalary">Зарплата сотрудника.</param>
-
     public FullTimeEmployee(string name, decimal baseSalary)
     {
       Name = name;
