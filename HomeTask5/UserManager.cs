@@ -10,14 +10,14 @@ namespace HomeTask5
   /// <summary>
   /// Управление коллекцией пользователей.
   /// </summary>
-   class UserManager
+   public class UserManager
   {
     #region Поля
 
     /// <summary>
     /// Список пользователей.
     /// </summary>
-    List<User> users = new List<User>();
+    private List<User> users = new List<User>();
 
     #endregion
 

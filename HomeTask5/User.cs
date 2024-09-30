@@ -9,7 +9,7 @@ namespace HomeTask5
   /// <summary>
   /// Пользователь.
   /// </summary>
-  class User
+  public class User
   {
     #region Поля и свойства
 
@@ -29,26 +29,26 @@ namespace HomeTask5
     private string email;
 
     /// <summary>
-    /// Свойство, представляющее id пользователя.
+    /// Id пользователя.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Свойство, представляющее имя пользователя.
+    /// Имя пользователя.
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    /// Свойство, представялющее электронную почту пользователя.
+    /// Электронная почта пользователя.
     /// </summary>
     public string Email { get; set; }
 
     #endregion
 
-    #region Конструктор
+    #region Конструкторы
 
     /// <summary>
-    /// Инициализирует новый объект класса.
+    /// Конструктор.
     /// </summary>
     /// <param name="id">Id пользвателя.</param>
     /// <param name="name">Имя пользователя.</param>
